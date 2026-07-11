@@ -439,12 +439,13 @@ router.post('/chat', async (req, res) => {
 
       if (kind === 'unknown') {
         return res.json({
-          reply: "I can help with pending requests, attendance records, leave balances, policy checks, manager lookups, and tenure info. Try one of the suggestion chips, or mention what you'd like to check.",
+          reply: "I can help with attendance, leave balances, manager lookups, promotion readiness, burnout risk, headcount, turnover, and more. For policies, ask about 'leave policy', 'overtime policy', 'expense policy', or 'attendance policy'. Try one of the suggestion chips, or type what you'd like to check.",
           needsEmployee: false,
         });
       }
 
-      if (['attendance','balance','policy','manager','tenure','employeeSummary'].includes(kind) && !empId) {
+      const EMP_INTENTS = ['attendance','balance','policy','manager','tenure','employeeSummary'];
+      if (EMP_INTENTS.includes(kind)) {
         if (classified.employeeName) {
           const nameSearch = classified.employeeName.toLowerCase().split(' ');
           let query = 'SELECT id FROM employees WHERE TRUE';
@@ -459,9 +460,10 @@ router.post('/chat', async (req, res) => {
           } else {
             return res.json({ reply: null, needsEmployee: true, suggestedIntent: kind });
           }
-        } else {
+        } else if (!empId) {
           return res.json({ reply: null, needsEmployee: true, suggestedIntent: kind });
         }
+        // empId was passed from frontend context (last selected employee) — use it
       }
     }
 

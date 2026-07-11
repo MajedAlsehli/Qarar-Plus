@@ -535,7 +535,7 @@ async function triggerSuggestion(s){
     }
     return;
   }
-  askForEmployee(empId => answerForEmployee(s.kind, empId));
+  askForEmployee((empId, empName) => answerForEmployee(s.kind, empId, empName));
 }
 
 function askForEmployee(onDone){
@@ -580,11 +580,14 @@ function askForEmployee(onDone){
     const emp = dept && dept.employees.find(e=>String(e.id)===String(empId));
     const empName = emp ? `${emp.first_name} ${emp.last_name}` : 'Selected employee';
     wrap.innerHTML = `<div class="selector-label" style="margin-bottom:0;">Selected: <strong>${empName}</strong></div>`;
-    onDone(empId);
+    onDone(empId, empName);
   });
 }
 
-async function answerForEmployee(kind, empId){
+let __lastEmpId = null;
+let __lastEmpName = null;
+
+async function answerForEmployee(kind, empId, empName){
   const typing = addMsg("Searching records…", "typing");
   try {
     const res = await fetch('/api/copilot/chat', {
@@ -594,6 +597,8 @@ async function answerForEmployee(kind, empId){
     const data = await res.json();
     typing.remove();
     addMsg(data.reply || "No results found.", "ai");
+    __lastEmpId = empId;
+    if (empName) __lastEmpName = empName;
     if (kind === 'policy'){
       addAction('Flag for manager sign-off', ()=> addMsg('Request flagged for manager review.', 'ai'));
     }
@@ -609,13 +614,27 @@ async function handleFreeText(q){
   try {
     const res = await fetch('/api/copilot/chat', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ kind:'freetext', question: q })
+      body: JSON.stringify({ kind:'freetext', question: q, empId: __lastEmpId || undefined })
     });
     const data = await res.json();
     typing.remove();
     if (data.needsEmployee){
-      addMsg("I need to know which employee you mean. Please select one:", "ai");
-      askForEmployee(empId => answerForEmployee(data.suggestedIntent || 'policy', empId));
+      if (__lastEmpId && __lastEmpName) {
+        addMsg(`Did you mean ${__lastEmpName}? Select below or pick a different employee:`, "ai");
+        const quickBtn = document.createElement("button");
+        quickBtn.className = "pill-btn small";
+        quickBtn.style.margin = "6px 0 4px";
+        quickBtn.textContent = `Use ${__lastEmpName}`;
+        quickBtn.addEventListener("click", () => {
+          quickBtn.parentElement && quickBtn.parentElement.remove();
+          answerForEmployee(data.suggestedIntent || 'balance', __lastEmpId, __lastEmpName);
+        });
+        chatBody.appendChild(quickBtn);
+        chatBody.scrollTop = chatBody.scrollHeight;
+      } else {
+        addMsg("Which employee is this about? Please select one:", "ai");
+      }
+      askForEmployee((empId, empName) => answerForEmployee(data.suggestedIntent || 'balance', empId, empName));
     } else {
       addMsg(data.reply || "No results found.", "ai");
     }

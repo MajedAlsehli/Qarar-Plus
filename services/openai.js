@@ -82,7 +82,7 @@ function keywordClassify(question) {
   if (/summary of|tell me about|overview of|briefing on|profile of/.test(q)) return { intent: 'employeeSummary', employeeName: null };
   if (/attendance|absent|present|showing up/.test(q)) return { intent: 'attendance', employeeName: null };
   if (/leave balance|days (off|remaining|left)|vacation/.test(q)) return { intent: 'balance', employeeName: null };
-  if (/policy|recent request|request status/.test(q)) return { intent: 'policy', employeeName: null };
+  if (/request.*status|recent request|check.*request|their request|his request|her request|policy on/.test(q)) return { intent: 'policy', employeeName: null };
   if (/\bmanager\b|reports to|who.*manage|managed by/.test(q)) return { intent: 'manager', employeeName: null };
   if (/tenure|how long|years in|time in (role|position)/.test(q)) return { intent: 'tenure', employeeName: null };
   return { intent: 'unknown', employeeName: null };
