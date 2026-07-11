@@ -59,102 +59,102 @@ const DEPARTMENTS = [
 // leadership_cert, manager_feedback_positive, peer_feedback_positive
 const ENGINEERING_EMPLOYEES = [
   { emp_key:'sarah_ahmed', first:'Sarah', last:'Ahmed', role:'Software Engineer', initials:'SA',
-    att:97, tenure:4.2, lb:12, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:97, tenure:4.2, lb:12, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'faisal_mohammed', first:'Faisal', last:'Mohammed', role:'Senior Software Engineer', initials:'FM',
-    att:95, tenure:1.3, lb:6, perf:true, goal:true, cert:false, mfb:true, pfb:true },
+    att:95, tenure:1.3, lb:6, perf:true, goal:true, cert:false, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'omar_saad', first:'Omar', last:'Saad', role:'Backend Engineer', initials:'OS',
-    att:81, tenure:3.6, lb:9, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:81, tenure:3.6, lb:9, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'lama_khalid', first:'Lama', last:'Khalid', role:'Frontend Engineer', initials:'LK',
-    att:93, tenure:2.9, lb:14, perf:true, goal:true, cert:false, mfb:true, pfb:true },
+    att:93, tenure:2.9, lb:14, perf:true, goal:true, cert:false, mfb:true, pfb:true, grade:'G2' },
   { emp_key:'turki_fahad', first:'Turki', last:'Fahad', role:'DevOps Engineer', initials:'TF',
-    att:98, tenure:5.1, lb:10, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:98, tenure:5.1, lb:10, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G4' },
   { emp_key:'hessa_nasser', first:'Hessa', last:'Nasser', role:'QA Engineer', initials:'HN',
-    att:90, tenure:3.3, lb:7, perf:true, goal:false, cert:true, mfb:false, pfb:true },
+    att:90, tenure:3.3, lb:7, perf:true, goal:false, cert:true, mfb:false, pfb:true, grade:'G3' },
   { emp_key:'hassan_sultan', first:'Hassan', last:'Sultan', role:'Data Engineer', initials:'HS',
-    att:79, tenure:2.5, lb:15, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:79, tenure:2.5, lb:15, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G2' },
   { emp_key:'rana_waleed', first:'Rana', last:'Waleed', role:'Mobile Engineer', initials:'RW',
-    att:94, tenure:4.7, lb:5, perf:false, goal:true, cert:false, mfb:true, pfb:true },
+    att:94, tenure:4.7, lb:5, perf:false, goal:true, cert:false, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'majed_ibrahim', first:'Majed', last:'Ibrahim', role:'Engineering Team Lead', initials:'MI',
-    att:96, tenure:6.0, lb:11, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:96, tenure:6.0, lb:11, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G4' },
   { emp_key:'dana_talal', first:'Dana', last:'Talal', role:'Site Reliability Engineer', initials:'DT',
-    att:88, tenure:1.6, lb:8, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:88, tenure:1.6, lb:8, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G2' },
   { emp_key:'meshal_abdullah', first:'Meshal', last:'Abdullah', role:'Software Engineer II', initials:'MA',
-    att:92, tenure:3.1, lb:9, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:92, tenure:3.1, lb:9, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G3' },
 ];
 
 const FINANCE_EMPLOYEES = [
   { emp_key:'layla_mohammed', first:'Layla', last:'Mohammed', role:'Financial Analyst', initials:'LM',
-    att:97, tenure:4.2, lb:12, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:97, tenure:4.2, lb:12, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'yousef_abdullah', first:'Yousef', last:'Abdullah', role:'Senior Financial Analyst', initials:'YA',
-    att:95, tenure:1.3, lb:6, perf:true, goal:true, cert:false, mfb:true, pfb:true },
+    att:95, tenure:1.3, lb:6, perf:true, goal:true, cert:false, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'noura_ahmed', first:'Noura', last:'Ahmed', role:'Accountant', initials:'NA',
-    att:81, tenure:3.6, lb:9, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:81, tenure:3.6, lb:9, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'bandar_khalid', first:'Bandar', last:'Khalid', role:'Payroll Specialist', initials:'BK',
-    att:93, tenure:2.9, lb:14, perf:true, goal:true, cert:false, mfb:true, pfb:true },
+    att:93, tenure:2.9, lb:14, perf:true, goal:true, cert:false, mfb:true, pfb:true, grade:'G2' },
   { emp_key:'amal_saad', first:'Amal', last:'Saad', role:'Budget Analyst', initials:'AS',
-    att:98, tenure:5.1, lb:10, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:98, tenure:5.1, lb:10, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G4' },
   { emp_key:'nasser_faisal', first:'Nasser', last:'Faisal', role:'Treasury Analyst', initials:'NF',
-    att:90, tenure:3.3, lb:7, perf:true, goal:false, cert:true, mfb:false, pfb:true },
+    att:90, tenure:3.3, lb:7, perf:true, goal:false, cert:true, mfb:false, pfb:true, grade:'G3' },
   { emp_key:'wafa_turki', first:'Wafa', last:'Turki', role:'Internal Auditor', initials:'WT',
-    att:79, tenure:2.5, lb:15, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:79, tenure:2.5, lb:15, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G2' },
   { emp_key:'ibrahim_nawaf', first:'Ibrahim', last:'Nawaf', role:'Accounts Payable Specialist', initials:'IN',
-    att:94, tenure:4.7, lb:5, perf:false, goal:true, cert:false, mfb:true, pfb:true },
+    att:94, tenure:4.7, lb:5, perf:false, goal:true, cert:false, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'munira_hassan', first:'Munira', last:'Hassan', role:'Financial Controller', initials:'MH',
-    att:96, tenure:6.0, lb:11, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:96, tenure:6.0, lb:11, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G4' },
   { emp_key:'saud_majed', first:'Saud', last:'Majed', role:'Senior Accountant', initials:'SM',
-    att:88, tenure:1.6, lb:8, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:88, tenure:1.6, lb:8, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'rayan_mohammed', first:'Rayan', last:'Mohammed', role:'Finance Coordinator', initials:'RM',
-    att:91, tenure:2.4, lb:9, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:91, tenure:2.4, lb:9, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G2' },
 ];
 
 const ITSUPPORT_EMPLOYEES = [
   { emp_key:'ahmed_khalid', first:'Ahmed', last:'Khalid', role:'IT Support Specialist', initials:'AK',
-    att:97, tenure:4.2, lb:12, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:97, tenure:4.2, lb:12, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'reem_mohammed', first:'Reem', last:'Mohammed', role:'Help Desk Technician', initials:'RM2',
-    att:95, tenure:1.3, lb:6, perf:true, goal:true, cert:false, mfb:true, pfb:true },
+    att:95, tenure:1.3, lb:6, perf:true, goal:true, cert:false, mfb:true, pfb:true, grade:'G2' },
   { emp_key:'khalid_sultan', first:'Khalid', last:'Sultan', role:'Systems Administrator', initials:'KS',
-    att:81, tenure:3.6, lb:9, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:81, tenure:3.6, lb:9, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'maha_fahad', first:'Maha', last:'Fahad', role:'Network Support Engineer', initials:'MF',
-    att:93, tenure:2.9, lb:14, perf:true, goal:true, cert:false, mfb:true, pfb:true },
+    att:93, tenure:2.9, lb:14, perf:true, goal:true, cert:false, mfb:true, pfb:true, grade:'G2' },
   { emp_key:'waleed_saad', first:'Waleed', last:'Saad', role:'IT Support Team Lead', initials:'WS',
-    att:98, tenure:5.1, lb:10, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:98, tenure:5.1, lb:10, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G4' },
   { emp_key:'aisha_turki', first:'Aisha', last:'Turki', role:'Desktop Support Analyst', initials:'AT',
-    att:90, tenure:3.3, lb:7, perf:true, goal:false, cert:true, mfb:false, pfb:true },
+    att:90, tenure:3.3, lb:7, perf:true, goal:false, cert:true, mfb:false, pfb:true, grade:'G3' },
   { emp_key:'nawaf_hassan', first:'Nawaf', last:'Hassan', role:'IT Security Analyst', initials:'NH',
-    att:79, tenure:2.5, lb:15, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:79, tenure:2.5, lb:15, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G2' },
   { emp_key:'rawan_abdullah', first:'Rawan', last:'Abdullah', role:'Service Desk Coordinator', initials:'RA',
-    att:94, tenure:4.7, lb:5, perf:false, goal:true, cert:false, mfb:true, pfb:true },
+    att:94, tenure:4.7, lb:5, perf:false, goal:true, cert:false, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'talal_ibrahim', first:'Talal', last:'Ibrahim', role:'Infrastructure Technician', initials:'TI',
-    att:96, tenure:6.0, lb:11, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:96, tenure:6.0, lb:11, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G4' },
   { emp_key:'alanoud_majed', first:'Alanoud', last:'Majed', role:'IT Support Engineer', initials:'AM',
-    att:88, tenure:1.6, lb:8, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:88, tenure:1.6, lb:8, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G2' },
   { emp_key:'sadeem_ahmed', first:'Sadeem', last:'Ahmed', role:'IT Operations Analyst', initials:'SA2',
-    att:93, tenure:2.8, lb:10, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:93, tenure:2.8, lb:10, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G3' },
 ];
 
 const MARKETING_EMPLOYEES = [
   { emp_key:'mohammed_saad', first:'Mohammed', last:'Saad', role:'Marketing Specialist', initials:'MS',
-    att:97, tenure:4.2, lb:12, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:97, tenure:4.2, lb:12, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'haya_fahad', first:'Haya', last:'Fahad', role:'Digital Marketing Specialist', initials:'HF',
-    att:95, tenure:1.3, lb:6, perf:true, goal:true, cert:false, mfb:true, pfb:true },
+    att:95, tenure:1.3, lb:6, perf:true, goal:true, cert:false, mfb:true, pfb:true, grade:'G2' },
   { emp_key:'fares_nasser', first:'Fares', last:'Nasser', role:'Content Marketing Specialist', initials:'FN',
-    att:81, tenure:3.6, lb:9, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:81, tenure:3.6, lb:9, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'fatimah_turki', first:'Fatimah', last:'Turki', role:'Marketing Analyst', initials:'FT',
-    att:93, tenure:2.9, lb:14, perf:true, goal:true, cert:false, mfb:true, pfb:true },
+    att:93, tenure:2.9, lb:14, perf:true, goal:true, cert:false, mfb:true, pfb:true, grade:'G2' },
   { emp_key:'sultan_waleed', first:'Sultan', last:'Waleed', role:'Social Media Specialist', initials:'SW',
-    att:98, tenure:5.1, lb:10, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:98, tenure:5.1, lb:10, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G4' },
   { emp_key:'nada_ahmed', first:'Nada', last:'Ahmed', role:'Marketing Coordinator', initials:'NA2',
-    att:90, tenure:3.3, lb:7, perf:true, goal:false, cert:true, mfb:false, pfb:true },
+    att:90, tenure:3.3, lb:7, perf:true, goal:false, cert:true, mfb:false, pfb:true, grade:'G3' },
   { emp_key:'ziyad_ibrahim', first:'Ziyad', last:'Ibrahim', role:'Brand Specialist', initials:'ZI',
-    att:79, tenure:2.5, lb:15, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:79, tenure:2.5, lb:15, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G2' },
   { emp_key:'shatha_majed', first:'Shatha', last:'Majed', role:'Growth Marketing Specialist', initials:'SM2',
-    att:94, tenure:4.7, lb:5, perf:false, goal:true, cert:false, mfb:true, pfb:true },
+    att:94, tenure:4.7, lb:5, perf:false, goal:true, cert:false, mfb:true, pfb:true, grade:'G3' },
   { emp_key:'abdullah_hassan', first:'Abdullah', last:'Hassan', role:'Marketing Team Lead', initials:'AH',
-    att:96, tenure:6.0, lb:11, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:96, tenure:6.0, lb:11, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G4' },
   { emp_key:'jawaher_saud', first:'Jawaher', last:'Saud', role:'SEO Specialist', initials:'JS',
-    att:88, tenure:1.6, lb:8, perf:true, goal:true, cert:true, mfb:true, pfb:true },
+    att:88, tenure:1.6, lb:8, perf:true, goal:true, cert:true, mfb:true, pfb:true, grade:'G2' },
   { emp_key:'joud_khalid', first:'Joud', last:'Khalid', role:'Marketing Assistant', initials:'JK',
-    att:91, tenure:1.9, lb:8, perf:true, goal:true, cert:false, mfb:true, pfb:true },
+    att:91, tenure:1.9, lb:8, perf:true, goal:true, cert:false, mfb:true, pfb:true, grade:'G1' },
 ];
 
 const PERFORMANCE_REVIEWS = {
@@ -284,6 +284,173 @@ const COURSES = {
   ],
 };
 
+const SALARY_GRADES = [
+  { grade:'G1', label:'Entry Level',           min:5000,  max:8000  },
+  { grade:'G2', label:'Associate',             min:8000,  max:12000 },
+  { grade:'G3', label:'Professional',          min:12000, max:18000 },
+  { grade:'G4', label:'Senior Professional',   min:18000, max:28000 },
+  { grade:'G5', label:'Principal / Lead',      min:28000, max:45000 },
+];
+
+const HR_POLICIES = [
+  { category:'leave',       title:'Annual Leave Entitlement',         effective:'2024-01-01',
+    summary:'21 working days for under 5 years; 30 days for 5+ years.',
+    full_text:'Employees with fewer than 5 years of continuous service are entitled to 21 working days of paid annual leave per calendar year. Employees with 5 or more years of service are entitled to 30 working days. Leave must be approved by the direct manager at least one week in advance. Unused leave of up to 10 days may be carried over to the following year.' },
+  { category:'leave',       title:'Sick Leave Policy',                effective:'2024-01-01',
+    summary:'30 days paid sick leave per year; unpaid thereafter.',
+    full_text:'Employees are entitled to 30 calendar days of paid sick leave per year. Days 31–90 are paid at 75%. Beyond 90 days the leave is unpaid. A medical certificate is required for absences exceeding two consecutive days. Sick leave cannot be taken immediately before or after annual leave without a medical certificate.' },
+  { category:'leave',       title:'Maternity Leave',                  effective:'2024-01-01',
+    summary:'10 weeks full pay for female employees.',
+    full_text:'Female employees are entitled to 10 weeks of paid maternity leave, to be taken around the expected date of delivery. The employee must notify HR at least one month before the expected start date. An additional 4 weeks of unpaid leave may be requested with manager approval. Maternity leave does not affect accrual of annual leave.' },
+  { category:'leave',       title:'Paternity Leave',                  effective:'2024-01-01',
+    summary:'3 days paid paternity leave.',
+    full_text:'Male employees are entitled to 3 days of paid paternity leave following the birth of a child. Leave must be taken within 30 days of the birth. Requests must be submitted to HR and manager prior to or immediately after the birth.' },
+  { category:'leave',       title:'Emergency Leave',                  effective:'2024-01-01',
+    summary:'3 days per year for immediate family emergencies.',
+    full_text:'Employees may take up to 3 days of paid emergency leave per year for immediate family emergencies including bereavement (first-degree relatives), serious illness of a dependent, or critical domestic incidents. Emergency leave must be reported to the manager as soon as possible and documented within 48 hours.' },
+  { category:'overtime',    title:'Overtime Approval Policy',         effective:'2024-01-01',
+    summary:'All overtime must be pre-approved by manager; 1.5x rate weekdays, 2x weekends.',
+    full_text:'Overtime work must be pre-approved in writing by the employee\'s direct manager before hours are worked. Overtime on weekdays is compensated at 1.5x the base hourly rate. Overtime on weekends and public holidays is compensated at 2x the base hourly rate. Overtime claims must be submitted within 7 days of the work being performed.' },
+  { category:'overtime',    title:'Overtime Cap',                     effective:'2024-01-01',
+    summary:'Maximum 20 hours per month; VP approval required above this.',
+    full_text:'No employee may work more than 20 overtime hours per calendar month without written approval from their department VP. HR must be notified when an employee reaches 15 hours of overtime in a month. Employees regularly exceeding the cap will be reviewed for workload redistribution or headcount addition.' },
+  { category:'expense',     title:'Expense Claims Policy',            effective:'2024-01-01',
+    summary:'Claims must be submitted within 30 days; receipts required over SAR 200.',
+    full_text:'All expense claims must be submitted within 30 calendar days of the expenditure. Original receipts or electronic invoices are required for any single expense exceeding SAR 200. Reimbursable categories include travel, accommodation, client entertainment (pre-approved), and role-specific equipment. Claims are reviewed and processed within 10 business days of submission.' },
+  { category:'expense',     title:'Travel and Accommodation',         effective:'2024-01-01',
+    summary:'Economy class for domestic; business class for international flights over 5 hours.',
+    full_text:'Business travel must be pre-approved by the direct manager and booked through the company travel portal. Domestic flights are economy class. International flights exceeding 5 hours are eligible for business class with VP approval. Hotel accommodation is capped at SAR 800 per night domestically and SAR 1,500 per night internationally.' },
+  { category:'attendance',  title:'Core Working Hours',               effective:'2024-01-01',
+    summary:'Core hours are 9:00am–4:00pm; flexible outside these hours with manager approval.',
+    full_text:'All employees are expected to be present and available during core hours of 9:00am to 4:00pm Sunday through Thursday. Flexible arrangements outside core hours may be agreed with the direct manager. Attendance is tracked via the HR system. Unapproved absences during core hours are recorded as late or absent.' },
+  { category:'attendance',  title:'Late Arrival Policy',             effective:'2024-01-01',
+    summary:'3 or more late arrivals per month triggers an HR review.',
+    full_text:'Arriving more than 15 minutes after the start of core hours constitutes a late arrival. Two late arrivals per month generate an automatic alert to the manager. Three or more late arrivals in a calendar month trigger a formal HR review meeting. Persistent lateness may result in disciplinary action under the Disciplinary Process Policy.' },
+  { category:'attendance',  title:'Remote Work Policy',               effective:'2024-01-01',
+    summary:'Up to 2 days per week remote with manager approval.',
+    full_text:'Employees may work remotely for up to 2 days per calendar week with prior approval from their direct manager. Remote work is subject to role suitability and business needs. Employees on performance improvement plans are not eligible for remote work without explicit HR approval. Attendance tracking applies equally to remote days.' },
+  { category:'hr',          title:'Probation Period',                 effective:'2024-01-01',
+    summary:'90-day probation for new hires; 1-week notice during probation.',
+    full_text:'All new employees serve a 90-day probationary period beginning on their first day of employment. During probation, either party may terminate the employment relationship with 1 week\'s written notice. Performance is reviewed at 30, 60, and 90 days. Successful completion of probation is confirmed in writing by HR.' },
+  { category:'hr',          title:'Promotion Policy',                 effective:'2024-01-01',
+    summary:'Minimum 2 years in role; all 5 criteria must be met; leadership cert required.',
+    full_text:'Employees are eligible for promotion consideration after a minimum of 2 years in their current role. All five promotion criteria must be satisfied: performance rating met, goal achievement met, leadership certification completed, positive manager feedback, and positive peer feedback. Promotions are reviewed in the Q2 and Q4 cycles. The decision rests with the department head and HR.' },
+  { category:'hr',          title:'Performance Improvement Plan',     effective:'2024-01-01',
+    summary:'Triggered after 2 consecutive underperforming quarters; 90-day PIP period.',
+    full_text:'A Performance Improvement Plan (PIP) is initiated when an employee receives unsatisfactory performance ratings in two consecutive review cycles. The PIP runs for 90 days with defined measurable targets. Weekly check-ins are conducted by the manager and HR. Failure to meet PIP targets may result in termination. Successful completion closes the PIP and resets the review cycle.' },
+  { category:'hr',          title:'Disciplinary Process',             effective:'2024-01-01',
+    summary:'Verbal warning → written warning → final written warning → termination.',
+    full_text:'The disciplinary process follows four progressive stages: verbal warning, written warning, final written warning, and termination. Each stage is documented and signed by the manager, HR, and the employee. Gross misconduct may result in immediate termination without prior warning stages. Employees have the right to respond in writing at each stage.' },
+  { category:'hr',          title:'Notice Period',                    effective:'2024-01-01',
+    summary:'30 days for under 2 years of service; 60 days for 2+ years.',
+    full_text:'Employees with fewer than 2 years of service are required to give 30 calendar days\' notice of resignation. Employees with 2 or more years of service must give 60 calendar days\' notice. Notice must be submitted in writing to the manager and HR. The company reserves the right to waive the notice period and pay in lieu of notice.' },
+  { category:'hr',          title:'Training and Development Budget',  effective:'2024-01-01',
+    summary:'SAR 3,000 per employee per year for approved external training.',
+    full_text:'Each employee is allocated SAR 3,000 per calendar year for external training, certifications, and development activities. Requests must be submitted to HR and approved by the direct manager before enrollment. Training must be relevant to the employee\'s current role or agreed development plan. Reimbursement is processed on completion of the training and submission of receipts.' },
+];
+
+const OVERTIME_DATA = [
+  { key:'omar_saad',      month:'2026-05', hours:22, approvedBy:'Fahad Mohammed' },
+  { key:'omar_saad',      month:'2026-06', hours:19, approvedBy:'Fahad Mohammed' },
+  { key:'omar_saad',      month:'2026-07', hours:14, approvedBy:'Fahad Mohammed' },
+  { key:'hassan_sultan',  month:'2026-05', hours:24, approvedBy:'Fahad Mohammed' },
+  { key:'hassan_sultan',  month:'2026-06', hours:21, approvedBy:'Fahad Mohammed' },
+  { key:'hassan_sultan',  month:'2026-07', hours:18, approvedBy:'Fahad Mohammed' },
+  { key:'noura_ahmed',    month:'2026-05', hours:20, approvedBy:'Saad Abdullah' },
+  { key:'noura_ahmed',    month:'2026-06', hours:23, approvedBy:'Saad Abdullah' },
+  { key:'noura_ahmed',    month:'2026-07', hours:16, approvedBy:'Saad Abdullah' },
+  { key:'wafa_turki',     month:'2026-05', hours:17, approvedBy:'Saad Abdullah' },
+  { key:'wafa_turki',     month:'2026-06', hours:25, approvedBy:'Saad Abdullah' },
+  { key:'wafa_turki',     month:'2026-07', hours:20, approvedBy:'Saad Abdullah' },
+  { key:'khalid_sultan',  month:'2026-05', hours:18, approvedBy:'Lena Khalid' },
+  { key:'khalid_sultan',  month:'2026-06', hours:22, approvedBy:'Lena Khalid' },
+  { key:'khalid_sultan',  month:'2026-07', hours:15, approvedBy:'Lena Khalid' },
+  { key:'nawaf_hassan',   month:'2026-05', hours:21, approvedBy:'Lena Khalid' },
+  { key:'nawaf_hassan',   month:'2026-06', hours:19, approvedBy:'Lena Khalid' },
+  { key:'nawaf_hassan',   month:'2026-07', hours:17, approvedBy:'Lena Khalid' },
+  { key:'fares_nasser',   month:'2026-05', hours:16, approvedBy:'Reema Ahmed' },
+  { key:'fares_nasser',   month:'2026-06', hours:20, approvedBy:'Reema Ahmed' },
+  { key:'fares_nasser',   month:'2026-07', hours:13, approvedBy:'Reema Ahmed' },
+  { key:'ziyad_ibrahim',  month:'2026-05', hours:23, approvedBy:'Reema Ahmed' },
+  { key:'ziyad_ibrahim',  month:'2026-06', hours:18, approvedBy:'Reema Ahmed' },
+  { key:'ziyad_ibrahim',  month:'2026-07', hours:22, approvedBy:'Reema Ahmed' },
+];
+
+const TRAINING_COMPLETIONS = [
+  { key:'sarah_ahmed',      course:'Advanced Cloud Computing',         date:'2025-11-15', score:92 },
+  { key:'sarah_ahmed',      course:'Secure Coding Practices',          date:'2026-02-20', score:88 },
+  { key:'turki_fahad',      course:'Cloud Security Architecture',      date:'2025-10-08', score:95 },
+  { key:'turki_fahad',      course:'CI/CD Pipeline Mastery',           date:'2026-03-14', score:91 },
+  { key:'majed_ibrahim',    course:'Leadership Fundamentals',          date:'2025-09-22', score:89 },
+  { key:'majed_ibrahim',    course:'Agile Project Management',         date:'2026-01-10', score:93 },
+  { key:'layla_mohammed',   course:'Advanced Financial Modeling',      date:'2025-11-05', score:90 },
+  { key:'amal_saad',        course:'Budgeting & Forecasting',          date:'2025-12-12', score:94 },
+  { key:'munira_hassan',    course:'IFRS Reporting Standards',         date:'2025-10-30', score:97 },
+  { key:'waleed_saad',      course:'ITIL Foundations',                 date:'2025-11-18', score:85 },
+  { key:'waleed_saad',      course:'IT Project Management',            date:'2026-04-05', score:88 },
+  { key:'talal_ibrahim',    course:'Advanced Troubleshooting Techniques', date:'2025-12-03', score:91 },
+  { key:'sultan_waleed',    course:'Digital Campaign Analytics',       date:'2025-10-14', score:86 },
+  { key:'sultan_waleed',    course:'Brand Positioning Strategy',       date:'2026-02-28', score:90 },
+  { key:'abdullah_hassan',  course:'Brand Positioning Strategy',       date:'2025-09-15', score:93 },
+  { key:'ahmed_khalid',     course:'Network Security Essentials',      date:'2026-01-22', score:87 },
+  { key:'lama_khalid',      course:'Kubernetes & Container Orchestration', date:'2026-05-10', score:84 },
+  { key:'yousef_abdullah',  course:'Data Analysis with Power BI',      date:'2026-03-07', score:88 },
+];
+
+const DISCIPLINARY_DATA = [
+  { key:'rana_waleed',     type:'written_warning',  reason:'Performance below target for two consecutive review cycles.',             date:'2025-12-01', by:'Fahad Mohammed' },
+  { key:'ibrahim_nawaf',   type:'written_warning',  reason:'Repeated failure to meet quarterly performance targets.',                 date:'2026-01-15', by:'Saad Abdullah' },
+  { key:'rawan_abdullah',  type:'verbal_warning',   reason:'Inconsistent documentation quality and missed service-level targets.',    date:'2026-02-10', by:'Lena Khalid' },
+  { key:'aisha_turki',     type:'verbal_warning',   reason:'Goal achievement gaps and manager feedback below threshold.',              date:'2026-01-20', by:'Lena Khalid' },
+  { key:'nasser_faisal',   type:'verbal_warning',   reason:'Failed to meet stakeholder communication targets for two quarters.',      date:'2025-11-05', by:'Saad Abdullah' },
+  { key:'nada_ahmed',      type:'verbal_warning',   reason:'Below-target goal achievement; manager feedback indicates development gaps.', date:'2026-02-25', by:'Reema Ahmed' },
+  { key:'hassan_sultan',   type:'pip',              reason:'Sustained late-attendance pattern and workload concerns. PIP active.',    date:'2026-03-01', by:'Fahad Mohammed' },
+  { key:'wafa_turki',      type:'pip',              reason:'Attendance below acceptable threshold and repeated overtime breaches.',   date:'2026-03-15', by:'Saad Abdullah' },
+  { key:'sarah_ahmed',     type:'commendation',     reason:'Outstanding delivery on Q3 cloud migration project ahead of schedule.',   date:'2025-10-01', by:'Fahad Mohammed' },
+  { key:'turki_fahad',     type:'commendation',     reason:'Exceptional work establishing the new CI/CD pipeline across all teams.',  date:'2025-11-20', by:'Fahad Mohammed' },
+  { key:'majed_ibrahim',   type:'commendation',     reason:'Recognised for mentoring 3 engineers and improving team velocity by 22%.', date:'2026-01-08', by:'Fahad Mohammed' },
+  { key:'amal_saad',       type:'commendation',     reason:'Led the annual budgeting cycle on time with zero revision requests.',     date:'2025-12-10', by:'Saad Abdullah' },
+  { key:'munira_hassan',   type:'commendation',     reason:'IFRS compliance review completed with zero audit findings.',              date:'2026-02-14', by:'Saad Abdullah' },
+  { key:'waleed_saad',     type:'commendation',     reason:'Reduced average ticket resolution time by 31% in Q4 2025.',              date:'2026-01-15', by:'Lena Khalid' },
+  { key:'sultan_waleed',   type:'commendation',     reason:'Social media campaign exceeded engagement targets by 40% in Q1 2026.',   date:'2026-04-05', by:'Reema Ahmed' },
+  { key:'abdullah_hassan', type:'commendation',     reason:'Successfully launched brand refresh campaign across all channels.',       date:'2026-03-20', by:'Reema Ahmed' },
+];
+
+const HEADCOUNT_REQUESTS = [
+  { dept:'engineering', role:'Senior Backend Engineer',        grade:'G4', status:'approved',
+    justification:'Growing API workload requires dedicated senior backend capacity.',
+    requestedBy:'Majed Ibrahim', requestedDate:'2026-05-01' },
+  { dept:'engineering', role:'Software Engineer',              grade:'G3', status:'pending',
+    justification:'Team velocity impacted by current headcount gaps post Q1 exits.',
+    requestedBy:'Majed Ibrahim', requestedDate:'2026-06-10' },
+  { dept:'finance', role:'Financial Analyst',                  grade:'G3', status:'approved',
+    justification:'Increased reporting requirements for consolidated IFRS filings.',
+    requestedBy:'Munira Hassan', requestedDate:'2026-04-15' },
+  { dept:'itsupport', role:'IT Security Analyst',              grade:'G3', status:'pending',
+    justification:'Rising security incident volume exceeds current team capacity.',
+    requestedBy:'Waleed Saad', requestedDate:'2026-06-01' },
+  { dept:'itsupport', role:'Help Desk Technician',             grade:'G2', status:'approved',
+    justification:'Headcount needed to maintain SLAs during planned leave periods.',
+    requestedBy:'Waleed Saad', requestedDate:'2026-05-20' },
+  { dept:'marketing', role:'Digital Marketing Manager',        grade:'G4', status:'pending',
+    justification:'Campaign complexity and volume requires senior campaign ownership.',
+    requestedBy:'Abdullah Hassan', requestedDate:'2026-06-15' },
+  { dept:'marketing', role:'Content Marketing Specialist',     grade:'G3', status:'rejected',
+    justification:'New content calendar demands additional full-time capacity.',
+    requestedBy:'Abdullah Hassan', requestedDate:'2026-03-10' },
+];
+
+const EXIT_RECORDS = [
+  { name:'Khaled Al-Rasheed',  role:'Software Engineer',          dept:'Engineering',  date:'2026-03-31', type:'resignation',        tenure:2.1, reason:'Accepted external offer with higher compensation.' },
+  { name:'Sara Al-Mutairi',    role:'Financial Analyst',          dept:'Finance',      date:'2026-02-28', type:'resignation',        tenure:1.8, reason:'Relocated to another city following family circumstances.' },
+  { name:'Abdullah Al-Zahrani',role:'Help Desk Technician',       dept:'IT Support',   date:'2026-04-15', type:'termination',        tenure:0.9, reason:'Terminated following disciplinary process for misconduct.' },
+  { name:'Nora Al-Dosari',     role:'Marketing Coordinator',      dept:'Marketing',    date:'2026-01-31', type:'resignation',        tenure:3.2, reason:'Career change to a different industry.' },
+  { name:'Fahad Al-Harbi',     role:'Backend Engineer',           dept:'Engineering',  date:'2025-12-31', type:'mutual_agreement',   tenure:4.5, reason:'Role eliminated following team restructuring.' },
+  { name:'Lina Al-Ghamdi',     role:'Treasury Analyst',           dept:'Finance',      date:'2026-05-15', type:'resignation',        tenure:2.7, reason:'Pursuing postgraduate studies full-time.' },
+  { name:'Waleed Al-Enazi',    role:'IT Support Specialist',      dept:'IT Support',   date:'2026-06-30', type:'resignation',        tenure:1.4, reason:'Moved to competitor with better career progression.' },
+  { name:'Reem Al-Shehri',     role:'Brand Specialist',           dept:'Marketing',    date:'2026-04-30', type:'resignation',        tenure:3.8, reason:'Accepted a senior role at a larger organisation.' },
+];
+
 async function seed() {
   const client = await pool.connect();
   try {
@@ -298,8 +465,33 @@ async function seed() {
     await client.query('DELETE FROM requests');
     await client.query('DELETE FROM attendance_records');
     await client.query('DELETE FROM courses');
+    await client.query('DELETE FROM exit_records');
+    await client.query('DELETE FROM headcount_requests');
+    await client.query('DELETE FROM disciplinary_records');
+    await client.query('DELETE FROM training_completions');
+    await client.query('DELETE FROM overtime_records');
     await client.query('DELETE FROM employees');
+    await client.query('DELETE FROM salary_grades');
+    await client.query('DELETE FROM hr_policies');
     await client.query('DELETE FROM departments');
+
+    console.log('Seeding salary grades...');
+    const gradeIds = {};
+    for (const g of SALARY_GRADES) {
+      const r = await client.query(
+        'INSERT INTO salary_grades (grade, label, min_salary, max_salary) VALUES ($1,$2,$3,$4) RETURNING id',
+        [g.grade, g.label, g.min, g.max]
+      );
+      gradeIds[g.grade] = r.rows[0].id;
+    }
+
+    console.log('Seeding HR policies...');
+    for (const p of HR_POLICIES) {
+      await client.query(
+        'INSERT INTO hr_policies (category, title, summary, full_text, effective_date) VALUES ($1,$2,$3,$4,$5)',
+        [p.category, p.title, p.summary, p.full_text, p.effective]
+      );
+    }
 
     console.log('Seeding departments...');
     const deptIds = {};
@@ -355,12 +547,12 @@ async function seed() {
       const managerName = deptManagerMap[emp.dept];
 
       const empR = await client.query(
-        `INSERT INTO employees (emp_key, first_name, last_name, role, department_id, manager_name, initials,
+        `INSERT INTO employees (emp_key, first_name, last_name, role, department_id, grade_id, manager_name, initials,
            hire_date, role_start_date, leave_balance, leadership_cert, performance_rating_met,
            goal_achievement_met, manager_feedback_positive, peer_feedback_positive)
-         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15) RETURNING id`,
+         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16) RETURNING id`,
         [
-          emp.emp_key, emp.first, emp.last, emp.role, deptIds[emp.dept], managerName, emp.initials,
+          emp.emp_key, emp.first, emp.last, emp.role, deptIds[emp.dept], gradeIds[emp.grade || 'G2'], managerName, emp.initials,
           hireDate.toISOString().split('T')[0],
           roleStart.toISOString().split('T')[0],
           emp.lb, emp.cert, emp.perf, emp.goal, emp.mfb, emp.pfb,
@@ -432,6 +624,54 @@ async function seed() {
       await client.query(
         'INSERT INTO requests (employee_id, type, submitted_at, status) VALUES ($1,$2,$3,$4)',
         [empId, qo.type, sub.toISOString(), qo.status]
+      );
+    }
+
+    console.log('Seeding overtime records...');
+    for (const o of OVERTIME_DATA) {
+      const empId = empIds[o.key];
+      if (!empId) continue;
+      await client.query(
+        'INSERT INTO overtime_records (employee_id, month, hours, approved_by) VALUES ($1,$2,$3,$4)',
+        [empId, o.month, o.hours, o.approvedBy]
+      );
+    }
+
+    console.log('Seeding training completions...');
+    for (const t of TRAINING_COMPLETIONS) {
+      const empId = empIds[t.key];
+      if (!empId) continue;
+      await client.query(
+        'INSERT INTO training_completions (employee_id, course_title, completed_date, score) VALUES ($1,$2,$3,$4)',
+        [empId, t.course, t.date, t.score]
+      );
+    }
+
+    console.log('Seeding disciplinary records...');
+    for (const d of DISCIPLINARY_DATA) {
+      const empId = empIds[d.key];
+      if (!empId) continue;
+      await client.query(
+        'INSERT INTO disciplinary_records (employee_id, type, reason, issued_date, issued_by) VALUES ($1,$2,$3,$4,$5)',
+        [empId, d.type, d.reason, d.date, d.by]
+      );
+    }
+
+    console.log('Seeding headcount requests...');
+    for (const h of HEADCOUNT_REQUESTS) {
+      const deptId = deptIds[h.dept];
+      if (!deptId) continue;
+      await client.query(
+        'INSERT INTO headcount_requests (department_id, role_title, grade, justification, status, requested_by, requested_date) VALUES ($1,$2,$3,$4,$5,$6,$7)',
+        [deptId, h.role, h.grade, h.justification, h.status, h.requestedBy, h.requestedDate]
+      );
+    }
+
+    console.log('Seeding exit records...');
+    for (const e of EXIT_RECORDS) {
+      await client.query(
+        'INSERT INTO exit_records (emp_name, role, department, exit_date, exit_type, tenure_years, exit_reason) VALUES ($1,$2,$3,$4,$5,$6,$7)',
+        [e.name, e.role, e.dept, e.date, e.type, e.tenure, e.reason]
       );
     }
 

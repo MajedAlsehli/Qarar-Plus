@@ -5,6 +5,14 @@ CREATE TABLE IF NOT EXISTS departments (
   manager_name TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS salary_grades (
+  id SERIAL PRIMARY KEY,
+  grade TEXT UNIQUE NOT NULL,
+  label TEXT NOT NULL,
+  min_salary INTEGER NOT NULL,
+  max_salary INTEGER NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS employees (
   id SERIAL PRIMARY KEY,
   emp_key TEXT UNIQUE NOT NULL,
@@ -12,6 +20,7 @@ CREATE TABLE IF NOT EXISTS employees (
   last_name TEXT NOT NULL,
   role TEXT NOT NULL,
   department_id INTEGER REFERENCES departments(id),
+  grade_id INTEGER REFERENCES salary_grades(id),
   manager_name TEXT NOT NULL,
   initials TEXT NOT NULL,
   hire_date DATE NOT NULL,
@@ -23,6 +32,8 @@ CREATE TABLE IF NOT EXISTS employees (
   manager_feedback_positive BOOLEAN NOT NULL DEFAULT false,
   peer_feedback_positive BOOLEAN NOT NULL DEFAULT false
 );
+
+ALTER TABLE employees ADD COLUMN IF NOT EXISTS grade_id INTEGER REFERENCES salary_grades(id);
 
 CREATE TABLE IF NOT EXISTS attendance_records (
   id SERIAL PRIMARY KEY,
@@ -74,4 +85,61 @@ CREATE TABLE IF NOT EXISTS notifications (
   meta TEXT NOT NULL DEFAULT '',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   read BOOLEAN NOT NULL DEFAULT false
+);
+
+CREATE TABLE IF NOT EXISTS hr_policies (
+  id SERIAL PRIMARY KEY,
+  category TEXT NOT NULL,
+  title TEXT NOT NULL,
+  summary TEXT NOT NULL,
+  full_text TEXT NOT NULL,
+  effective_date DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS overtime_records (
+  id SERIAL PRIMARY KEY,
+  employee_id INTEGER REFERENCES employees(id),
+  month TEXT NOT NULL,
+  hours INTEGER NOT NULL,
+  approved_by TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS training_completions (
+  id SERIAL PRIMARY KEY,
+  employee_id INTEGER REFERENCES employees(id),
+  course_title TEXT NOT NULL,
+  completed_date DATE NOT NULL,
+  score INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS disciplinary_records (
+  id SERIAL PRIMARY KEY,
+  employee_id INTEGER REFERENCES employees(id),
+  type TEXT NOT NULL CHECK (type IN ('verbal_warning','written_warning','pip','commendation','final_warning')),
+  reason TEXT NOT NULL,
+  issued_date DATE NOT NULL,
+  issued_by TEXT NOT NULL,
+  resolved BOOLEAN NOT NULL DEFAULT false
+);
+
+CREATE TABLE IF NOT EXISTS headcount_requests (
+  id SERIAL PRIMARY KEY,
+  department_id INTEGER REFERENCES departments(id),
+  role_title TEXT NOT NULL,
+  grade TEXT NOT NULL,
+  justification TEXT NOT NULL,
+  status TEXT NOT NULL CHECK (status IN ('pending','approved','rejected','filled')),
+  requested_by TEXT NOT NULL,
+  requested_date DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS exit_records (
+  id SERIAL PRIMARY KEY,
+  emp_name TEXT NOT NULL,
+  role TEXT NOT NULL,
+  department TEXT NOT NULL,
+  exit_date DATE NOT NULL,
+  exit_type TEXT NOT NULL CHECK (exit_type IN ('resignation','termination','mutual_agreement','retirement')),
+  tenure_years NUMERIC(4,1) NOT NULL,
+  exit_reason TEXT NOT NULL
 );

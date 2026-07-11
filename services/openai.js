@@ -71,8 +71,17 @@ function keywordClassify(question) {
   if (/headcount|how many.*employ|employ.*count|staff count/.test(q)) return { intent: 'headcount', employeeName: null };
   if (/missing cert|no cert|without cert|leadership cert/.test(q)) return { intent: 'certMissing', employeeName: null };
   if (/new joiner|joined.*year|recently joined|new hire/.test(q)) return { intent: 'newJoiners', employeeName: null };
+  if (/burnout|overwork|at risk|high overtime|exhausted/.test(q)) return { intent: 'burnoutRisk', employeeName: null };
+  if (/open headcount|open position|open role|open req|hiring plan|open vacanc/.test(q)) return { intent: 'openHeadcount', employeeName: null };
+  if (/turnover|attrition|exit|how many.*left|who.*left|resignat/.test(q)) return { intent: 'turnoverRate', employeeName: null };
+  if (/disciplin|warning|pip|formal action|misconduct/.test(q)) return { intent: 'disciplinaryCheck', employeeName: null };
+  if (/leave policy|annual leave policy|sick leave policy|maternity|paternity|emergency leave/.test(q)) return { intent: 'leavePolicy', employeeName: null };
+  if (/overtime policy|overtime rule|overtime pay|overtime cap/.test(q)) return { intent: 'overtimePolicy', employeeName: null };
+  if (/expense policy|expense claim policy|receipt|reimburs/.test(q)) return { intent: 'expensePolicy', employeeName: null };
+  if (/attendance policy|late policy|core hours|remote work policy/.test(q)) return { intent: 'attendancePolicy', employeeName: null };
+  if (/summary of|tell me about|overview of|briefing on|profile of/.test(q)) return { intent: 'employeeSummary', employeeName: null };
   if (/attendance|absent|present|showing up/.test(q)) return { intent: 'attendance', employeeName: null };
-  if (/leave balance|days (off|remaining|left)|vacation|annual leave/.test(q)) return { intent: 'balance', employeeName: null };
+  if (/leave balance|days (off|remaining|left)|vacation/.test(q)) return { intent: 'balance', employeeName: null };
   if (/policy|recent request|request status/.test(q)) return { intent: 'policy', employeeName: null };
   if (/\bmanager\b|reports to|who.*manage|managed by/.test(q)) return { intent: 'manager', employeeName: null };
   if (/tenure|how long|years in|time in (role|position)/.test(q)) return { intent: 'tenure', employeeName: null };
@@ -88,11 +97,26 @@ Intents:
 - lateAttendance: questions about employees with repeated late attendance
 - awaitingApproval: questions about requests awaiting manager approval
 - approvedToday: questions about requests approved today
+- promotionReady: questions about who is ready for promotion
+- promotionNotReady: questions about who is not ready for promotion
+- topPerformers: questions about top performers
+- headcount: questions about headcount or staff count by department
+- certMissing: questions about employees missing leadership certification
+- newJoiners: questions about recently hired employees
+- burnoutRisk: questions about employees at risk of burnout or working excessive overtime
+- openHeadcount: questions about open job requisitions or hiring plans
+- turnoverRate: questions about employee exits or turnover
+- disciplinaryCheck: questions about disciplinary actions, warnings, or PIPs
+- leavePolicy: questions about the leave or annual leave policy
+- overtimePolicy: questions about the overtime policy or rules
+- expensePolicy: questions about the expense claims or reimbursement policy
+- attendancePolicy: questions about the attendance policy or core hours
 - attendance: questions about a specific employee's attendance record
 - balance: questions about a specific employee's leave balance
 - policy: questions about policy on a specific employee's recent request
 - manager: questions about who a specific employee's manager is
 - tenure: questions about how long a specific employee has been in their role
+- employeeSummary: requests for a full profile or summary of a specific employee
 - unknown: anything else
 
 Question: "${question}"
@@ -103,7 +127,7 @@ Respond with valid JSON only: {"intent": "<one of the intents above>", "employee
       model: MODEL(),
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' },
-      max_tokens: 60,
+      max_tokens: 80,
     });
     const parsed = JSON.parse(res.choices[0].message.content);
     const intent = parsed.intent || 'unknown';
@@ -181,4 +205,45 @@ function formatFallbackReply(intent, data) {
   }
 }
 
-module.exports = { generatePromoNote, generateRecRationale, classifyIntent, generateChatReply };
+async function generateEmployeeSummary(data) {
+  try {
+    const prompt = `You are an HR AI Copilot. Write a professional 3-4 sentence HR briefing for this employee, as if preparing a manager for a performance conversation. Be specific, factual, and insightful. Mention standout strengths, any areas of concern, and one concrete development recommendation. Do not invent any details not provided.
+
+Employee: ${data.name}
+Role: ${data.role} | Department: ${data.department} | Grade: ${data.grade}
+Manager: ${data.manager}
+Tenure in role: ${data.tenureYears} years | Hire date: ${data.hireDate}
+Attendance (Q3 2025): ${data.attendancePct}% (${data.present} present, ${data.late} late, ${data.absent} absent out of ${data.totalDays} days)
+Leave balance: ${data.leaveBalance} days remaining
+Promotion readiness: ${data.promotionReady ? 'Ready — all 5 criteria met' : `Not yet ready — missing: ${data.missingCriteria.join(', ')}`}
+Leadership certification: ${data.leadershipCert ? 'Completed' : 'Not completed'}
+Performance rating met: ${data.perfMet ? 'Yes' : 'No'} | Goal achievement met: ${data.goalMet ? 'Yes' : 'No'}
+Manager feedback: ${data.managerFeedback ? 'Positive' : 'Needs improvement'} | Peer feedback: ${data.peerFeedback ? 'Positive' : 'Needs improvement'}
+${data.overtimeHours ? `Recent overtime: ${data.overtimeHours} hours last month (${data.overtimeRisk ? 'HIGH — potential burnout risk' : 'within acceptable range'})` : 'No overtime records in last 3 months.'}
+${data.disciplinaryStatus ? `Disciplinary status: ${data.disciplinaryStatus}` : 'No active disciplinary records.'}
+${data.trainingCompleted.length > 0 ? `Recent training completed: ${data.trainingCompleted.join(', ')}` : 'No training completions on record.'}
+Latest performance review notes: "${data.reviewNotes}"
+
+Write the briefing now:`;
+
+    const res = await getClient().chat.completions.create({
+      model: MODEL(),
+      messages: [{ role: 'user', content: prompt }],
+      max_tokens: 250,
+    });
+    return res.choices[0].message.content.trim();
+  } catch (e) {
+    const issues = [];
+    if (!data.perfMet) issues.push('performance rating not met');
+    if (!data.goalMet) issues.push('goal achievement not met');
+    if (!data.leadershipCert) issues.push('leadership cert pending');
+    if (data.overtimeRisk) issues.push('high overtime');
+    const positive = data.promotionReady ? 'meets all promotion criteria' : '';
+    return `${data.name} is a ${data.role} in ${data.department} with ${data.tenureYears} years in role. ` +
+      (positive ? `${data.name} ${positive}. ` : '') +
+      (issues.length ? `Areas requiring attention: ${issues.join(', ')}. ` : '') +
+      `Attendance stands at ${data.attendancePct}% with ${data.leaveBalance} days leave remaining.`;
+  }
+}
+
+module.exports = { generatePromoNote, generateRecRationale, classifyIntent, generateChatReply, generateEmployeeSummary };
