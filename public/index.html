@@ -84,7 +84,6 @@
   .profile-pill{font-family:inherit;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:999px;border:1px solid var(--line);background:var(--white);color:var(--gray-600);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:4px;vertical-align:middle;margin-left:6px;}
   .profile-pill:hover{background:var(--gray-100);border-color:var(--ink);color:var(--ink);}
   /* ================= CONFETTI ================= */
-  @keyframes confettiFall{0%{transform:translateY(0) rotate(0deg);opacity:1;}85%{opacity:1;}100%{transform:translateY(105vh) rotate(720deg);opacity:0;}}
 
   /* ================= DEMO NARRATOR ================= */
   .demo-narrator{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(18px);background:#0B0B0B;color:#fff;padding:14px 20px 14px 14px;border-radius:16px;font-size:13.5px;font-weight:500;line-height:1.55;opacity:0;pointer-events:none;transition:opacity .3s ease,transform .3s ease;z-index:250;box-shadow:0 16px 48px rgba(0,0,0,.4);max-width:580px;width:calc(100% - 48px);display:flex;align-items:flex-start;gap:12px;}
@@ -1405,7 +1404,6 @@ function renderPromo(empId, data){
   document.getElementById("decision-btn").addEventListener("click", async ()=>{
     try {
       await fetch(`/api/promotion/${empId}/forward`, { method:'POST' });
-      if (ready) launchConfetti();
       decisionBox.innerHTML = ready
         ? `<div class="decision-confirmed">${window.__lang === 'ar' ? `✓ تم الإرسال إلى ${data.managerName} (مدير ${data.empName}) لمراجعة اللجنة` : `✓ Sent to ${data.managerName} (${data.empName}'s manager) for committee review`}</div>`
         : `<div class="decision-confirmed">${window.__lang === 'ar' ? `✓ تم إرسال ملاحظات التطوير إلى ${data.managerName}` : `✓ Development feedback sent to ${data.managerName}`}</div>`;
@@ -1494,17 +1492,6 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') hideEmpPopup
 /* ============================================================
    CONFETTI
    ============================================================ */
-function launchConfetti(){
-  const colors = ['#6FE3A6','#F2A65A','#4A9EFF','#FF6B8A','#FFD700','#C084FC','#0B0B0B'];
-  for(let i = 0; i < 90; i++){
-    const p = document.createElement('div');
-    const size = 6 + Math.random() * 8;
-    const isCircle = Math.random() > 0.4;
-    p.style.cssText = `position:fixed;top:-12px;left:${Math.random()*100}vw;width:${size}px;height:${size}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${isCircle?'50%':'2px'};pointer-events:none;z-index:500;animation:confettiFall ${1.4+Math.random()*2.2}s ease-in forwards;animation-delay:${Math.random()*0.6}s;`;
-    document.body.appendChild(p);
-    setTimeout(() => p.remove(), 4500);
-  }
-}
 
 /* ============================================================
    DEMO MODE
