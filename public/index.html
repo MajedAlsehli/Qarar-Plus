@@ -706,12 +706,17 @@ async function answerForEmployee(kind, empId, empName){
     });
     const data = await res.json();
     typing.remove();
-    addMsg(data.reply || "No results found.", "ai");
-    pushHistory('assistant', data.reply || '');
+    const replyText = data.reply || "No results found.";
+    addMsg(replyText, "ai");
+    pushHistory('assistant', replyText);
     __lastEmpId = empId;
     if (empName) __lastEmpName = empName;
     if (kind === 'policy'){
       addAction('Flag for manager sign-off', ()=> addMsg('Request flagged for manager review.', 'ai'));
+    }
+    if (kind === 'employeeSummary' && data.briefingMeta) {
+      const meta = data.briefingMeta;
+      addAction('Download Briefing PDF', () => generateBriefingPdf(meta, replyText));
     }
     addFollowUpChips(data.followUps);
   } catch(e) {
@@ -749,14 +754,77 @@ async function handleFreeText(q){
       }
       askForEmployee((empId, empName) => answerForEmployee(data.suggestedIntent || 'balance', empId, empName));
     } else {
-      addMsg(data.reply || "No results found.", "ai");
-      pushHistory('assistant', data.reply || '');
+      const replyText = data.reply || "No results found.";
+      addMsg(replyText, "ai");
+      pushHistory('assistant', replyText);
+      if (data.briefingMeta) {
+        addAction('Download Briefing PDF', () => generateBriefingPdf(data.briefingMeta, replyText));
+      }
       addFollowUpChips(data.followUps);
     }
   } catch(e) {
     typing.remove();
     addMsg("Unable to reach the server. Please try again.", "ai");
   }
+}
+
+function generateBriefingPdf(meta, aiText) {
+  const promoStatus = meta.promotionReady
+    ? 'Ready — all criteria met'
+    : `Not yet ready — missing: ${(meta.missingCriteria || []).join(', ')}`;
+  const discLine = meta.disciplinaryStatus
+    ? `<div class="section-title">Disciplinary Status</div><div class="ai-text" style="font-size:13px;">${meta.disciplinaryStatus}</div>`
+    : '';
+  const trainingLine = meta.trainingCompleted && meta.trainingCompleted.length
+    ? `<div class="section-title">Recent Training</div><div style="font-size:13px;color:#373737;">${meta.trainingCompleted.join(' · ')}</div>`
+    : '';
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<title>HR Briefing — ${meta.name}</title>
+<style>
+  *{box-sizing:border-box;}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;padding:48px 52px;color:#0B0B0B;max-width:740px;margin:0 auto;font-size:14px;}
+  .header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #0B0B0B;padding-bottom:14px;margin-bottom:28px;}
+  .brand{font-size:24px;font-weight:800;letter-spacing:-0.5px;}
+  .doc-label{font-size:11px;color:#6B6B6E;font-weight:600;letter-spacing:0.6px;text-transform:uppercase;}
+  .emp-name{font-size:22px;font-weight:800;margin:0 0 4px;}
+  .emp-role{font-size:13px;color:#6B6B6E;}
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0;}
+  .metric{background:#F4F4F5;border-radius:8px;padding:12px 14px;}
+  .metric-num{font-size:20px;font-weight:800;line-height:1;}
+  .metric-label{font-size:10px;color:#6B6B6E;margin-top:3px;font-weight:500;}
+  .promo-badge{display:inline-block;padding:5px 14px;border-radius:999px;font-size:12px;font-weight:700;margin:4px 0 20px;background:${meta.promotionReady?'#E9F7EF':'#FFF6E1'};color:${meta.promotionReady?'#0F7A55':'#946200'};}
+  .section-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:#6B6B6E;margin:18px 0 8px;}
+  .ai-text{font-size:14px;line-height:1.75;background:#F4F4F5;border-radius:8px;padding:16px 18px;}
+  .footer{margin-top:36px;font-size:10.5px;color:#9A9BA1;border-top:1px solid #E5E5E7;padding-top:12px;display:flex;justify-content:space-between;}
+  @media print{body{padding:32px 40px;}}
+</style></head><body>
+<div class="header">
+  <div><div class="brand">jisr</div><div class="doc-label">Confidential HR Briefing</div></div>
+  <div style="text-align:right;font-size:12px;color:#6B6B6E;">${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div>
+</div>
+<div class="emp-name">${meta.name}</div>
+<div class="emp-role">${meta.role} &nbsp;·&nbsp; ${meta.department} &nbsp;·&nbsp; Grade ${meta.grade || 'N/A'} &nbsp;·&nbsp; Manager: ${meta.manager}</div>
+<div class="metrics">
+  <div class="metric"><div class="metric-num">${meta.attendancePct}%</div><div class="metric-label">Attendance (Q3)</div></div>
+  <div class="metric"><div class="metric-num">${meta.leaveBalance}</div><div class="metric-label">Leave Balance (days)</div></div>
+  <div class="metric"><div class="metric-num">${meta.tenureYears}y</div><div class="metric-label">Tenure in Role</div></div>
+  <div class="metric"><div class="metric-num">${meta.overtimeHours || 0}h</div><div class="metric-label">Last Month Overtime</div></div>
+</div>
+<div class="promo-badge">${promoStatus}</div>
+<div class="section-title">AI HR Briefing</div>
+<div class="ai-text">${aiText}</div>
+${discLine}
+${trainingLine}
+<div class="footer">
+  <span>Generated by Jisr AI &nbsp;·&nbsp; For HR use only &nbsp;·&nbsp; Confidential</span>
+  <span>${meta.name} &nbsp;·&nbsp; ${meta.role}</span>
+</div>
+</body></html>`;
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+  w.focus();
+  setTimeout(() => w.print(), 600);
 }
 
 chatSend.addEventListener("click", ()=>{

@@ -517,7 +517,8 @@ router.post('/chat', async (req, res) => {
         : await generateChatReply(result.intent, result.data, lang, history);
 
     const followUps = getFollowUps(result.intent);
-    res.json({ reply, needsEmployee: false, followUps });
+    const briefingMeta = result.intent === 'employeeSummary' ? result.data : undefined;
+    res.json({ reply, needsEmployee: false, followUps, briefingMeta });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
