@@ -1,8 +1,12 @@
 require('dotenv').config();
 const OpenAI = require('openai');
 
-const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-const MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+let _client = null;
+function getClient() {
+  if (!_client) _client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  return _client;
+}
+function MODEL() { return process.env.OPENAI_MODEL || 'gpt-4o-mini'; }
 
 async function generatePromoNote(employeeName, role, factors, score, ready) {
   try {
@@ -19,8 +23,8 @@ Criteria not met: ${unmetList.join(', ') || 'none'}
 
 Write a concise, factual 1-2 sentence note explaining the score. Reference the specific criteria. Do not invent any details not provided.`;
 
-    const res = await client.chat.completions.create({
-      model: MODEL,
+    const res = await getClient().chat.completions.create({
+      model: MODEL(),
       messages: [{ role: 'user', content: prompt }],
       max_tokens: 120,
     });
@@ -44,8 +48,8 @@ Course description: ${courseDescription}
 
 Write a concise 1-2 sentence rationale explaining why this specific course is recommended for this employee right now, grounded in their actual performance notes. Be specific and factual. Do not invent details not in the notes.`;
 
-    const res = await client.chat.completions.create({
-      model: MODEL,
+    const res = await getClient().chat.completions.create({
+      model: MODEL(),
       messages: [{ role: 'user', content: prompt }],
       max_tokens: 100,
     });
@@ -75,8 +79,8 @@ Question: "${question}"
 
 Respond with valid JSON only: {"intent": "<one of the intents above>", "employeeName": "<full name if mentioned, else null>"}`;
 
-    const res = await client.chat.completions.create({
-      model: MODEL,
+    const res = await getClient().chat.completions.create({
+      model: MODEL(),
       messages: [{ role: 'user', content: prompt }],
       response_format: { type: 'json_object' },
       max_tokens: 60,
@@ -100,8 +104,8 @@ Data: ${JSON.stringify(data)}
 
 Reply naturally as if speaking to an HR professional. Be direct and informative.`;
 
-    const res = await client.chat.completions.create({
-      model: MODEL,
+    const res = await getClient().chat.completions.create({
+      model: MODEL(),
       messages: [{ role: 'user', content: prompt }],
       max_tokens: 150,
     });
