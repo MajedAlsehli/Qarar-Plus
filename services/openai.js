@@ -7,8 +7,14 @@ function getClient() {
   return _client;
 }
 function MODEL() { return process.env.OPENAI_MODEL || 'gpt-4o-mini'; }
+function langInstruction(lang) {
+  return lang === 'ar' ? '\n\nRespond in Arabic (Modern Standard Arabic / الفصحى). Keep names in their original language.' : '';
+}
+function historyMessages(history = []) {
+  return history.slice(-6).map(h => ({ role: h.role, content: h.content }));
+}
 
-async function generatePromoNote(employeeName, role, factors, score, ready) {
+async function generatePromoNote(employeeName, role, factors, score, ready, lang = 'en') {
   try {
     const metList = factors.filter(f => f.met).map(f => f.label);
     const unmetList = factors.filter(f => !f.met).map(f => f.label);
@@ -21,12 +27,12 @@ Status: ${ready ? 'Ready for committee review' : 'Not yet ready'}
 Criteria met: ${metList.join(', ') || 'none'}
 Criteria not met: ${unmetList.join(', ') || 'none'}
 
-Write a concise, factual 1-2 sentence note explaining the score. Reference the specific criteria. Do not invent any details not provided.`;
+Write a concise, factual 1-2 sentence note explaining the score. Reference the specific criteria. Do not invent any details not provided.${langInstruction(lang)}`;
 
     const res = await getClient().chat.completions.create({
       model: MODEL(),
       messages: [{ role: 'user', content: prompt }],
-      max_tokens: 120,
+      max_tokens: 140,
     });
     return res.choices[0].message.content.trim();
   } catch (e) {
@@ -36,7 +42,7 @@ Write a concise, factual 1-2 sentence note explaining the score. Reference the s
   }
 }
 
-async function generateRecRationale(employeeName, role, reviewNotes, courseTitle, courseDescription) {
+async function generateRecRationale(employeeName, role, reviewNotes, courseTitle, courseDescription, lang = 'en') {
   try {
     const prompt = `You are an HR learning advisor writing a brief 1-2 sentence course rationale for an employee.
 
@@ -46,12 +52,12 @@ Recent performance review notes: ${reviewNotes}
 Recommended course: ${courseTitle}
 Course description: ${courseDescription}
 
-Write a concise 1-2 sentence rationale explaining why this specific course is recommended for this employee right now, grounded in their actual performance notes. Be specific and factual. Do not invent details not in the notes.`;
+Write a concise 1-2 sentence rationale explaining why this specific course is recommended for this employee right now, grounded in their actual performance notes. Be specific and factual. Do not invent details not in the notes.${langInstruction(lang)}`;
 
     const res = await getClient().chat.completions.create({
       model: MODEL(),
       messages: [{ role: 'user', content: prompt }],
-      max_tokens: 100,
+      max_tokens: 120,
     });
     return res.choices[0].message.content.trim();
   } catch (e) {
@@ -88,10 +94,14 @@ function keywordClassify(question) {
   return { intent: 'unknown', employeeName: null };
 }
 
-async function classifyIntent(question) {
+async function classifyIntent(question, history = []) {
   try {
-    const prompt = `Classify this HR question into one of these intents and extract any employee name mentioned.
+    const historyCtx = history.length > 0
+      ? `\nConversation so far:\n${history.slice(-4).map(h => `${h.role === 'user' ? 'HR Officer' : 'Copilot'}: ${h.content.substring(0, 200)}`).join('\n')}\n`
+      : '';
 
+    const prompt = `Classify this HR question into one of these intents and extract any employee name mentioned.
+${historyCtx}
 Intents:
 - pending: questions about pending or overdue requests older than 3 days
 - lateAttendance: questions about employees with repeated late attendance
@@ -121,7 +131,8 @@ Intents:
 
 Question: "${question}"
 
-Respond with valid JSON only: {"intent": "<one of the intents above>", "employeeName": "<full name if mentioned, else null>"}`;
+Use the conversation history to resolve pronouns (he/she/they/him/her) to actual employee names if mentioned earlier.
+Respond with valid JSON only: {"intent": "<one of the intents above>", "employeeName": "<full name if mentioned or resolved from context, else null>"}`;
 
     const res = await getClient().chat.completions.create({
       model: MODEL(),
@@ -138,19 +149,22 @@ Respond with valid JSON only: {"intent": "<one of the intents above>", "employee
   }
 }
 
-async function generateChatReply(intent, data) {
+async function generateChatReply(intent, data, lang = 'en', history = []) {
   try {
     const prompt = `You are an AI HR Copilot. Generate a natural, concise reply (1-3 sentences) for an HR officer based on the following computed facts. Do not invent any numbers or names not in the data.
 
 Intent: ${intent}
 Data: ${JSON.stringify(data)}
 
-Reply naturally as if speaking to an HR professional. Be direct and informative.`;
+Reply naturally as if speaking to an HR professional. Be direct and informative.${langInstruction(lang)}`;
 
     const res = await getClient().chat.completions.create({
       model: MODEL(),
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 150,
+      messages: [
+        ...historyMessages(history),
+        { role: 'user', content: prompt },
+      ],
+      max_tokens: 200,
     });
     return res.choices[0].message.content.trim();
   } catch (e) {
@@ -205,7 +219,7 @@ function formatFallbackReply(intent, data) {
   }
 }
 
-async function generateEmployeeSummary(data) {
+async function generateEmployeeSummary(data, lang = 'en') {
   try {
     const prompt = `You are an HR AI Copilot. Write a professional 3-4 sentence HR briefing for this employee, as if preparing a manager for a performance conversation. Be specific, factual, and insightful. Mention standout strengths, any areas of concern, and one concrete development recommendation. Do not invent any details not provided.
 
@@ -224,12 +238,12 @@ ${data.disciplinaryStatus ? `Disciplinary status: ${data.disciplinaryStatus}` : 
 ${data.trainingCompleted.length > 0 ? `Recent training completed: ${data.trainingCompleted.join(', ')}` : 'No training completions on record.'}
 Latest performance review notes: "${data.reviewNotes}"
 
-Write the briefing now:`;
+Write the briefing now:${langInstruction(lang)}`;
 
     const res = await getClient().chat.completions.create({
       model: MODEL(),
       messages: [{ role: 'user', content: prompt }],
-      max_tokens: 250,
+      max_tokens: 300,
     });
     return res.choices[0].message.content.trim();
   } catch (e) {
@@ -246,7 +260,7 @@ Write the briefing now:`;
   }
 }
 
-async function generateSmartFallback(question, empName) {
+async function generateSmartFallback(question, empName, lang = 'en', history = []) {
   try {
     const context = empName
       ? `The HR officer is currently viewing ${empName}'s profile.`
@@ -256,12 +270,15 @@ ${context}
 
 You can help with: attendance records, leave balances, manager lookups, employee tenure, promotion readiness, top performers, headcount by department, burnout risk, open headcount requests, turnover/exit data, disciplinary records, HR policies (leave, overtime, expense, attendance), and full AI employee briefings.
 
-Respond in 1-2 natural sentences. If there is an employee in context, ask what they want to know about that person. If the question hints at something you can help with, guide them there. If the question is genuinely outside HR, say so briefly. Never list every capability — just respond naturally to what they actually said.`;
+Respond in 1-2 natural sentences. If there is an employee in context, ask what they want to know about that person. If the question hints at something you can help with, guide them there. If the question is genuinely outside HR, say so briefly. Never list every capability — just respond naturally to what they actually said.${langInstruction(lang)}`;
 
     const res = await getClient().chat.completions.create({
       model: MODEL(),
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 100,
+      messages: [
+        ...historyMessages(history),
+        { role: 'user', content: prompt },
+      ],
+      max_tokens: 120,
     });
     return res.choices[0].message.content.trim();
   } catch (e) {

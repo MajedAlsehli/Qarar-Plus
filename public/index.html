@@ -196,6 +196,14 @@
   .followup-chip{font-size:11.5px;font-weight:600;color:var(--gray-700);background:var(--white);border:1px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;transition:all .15s;white-space:nowrap;}
   .followup-chip:hover{background:var(--ink);color:var(--white);border-color:var(--ink);}
 
+  /* ================= LANG TOGGLE ================= */
+  .lang-btn{font-size:13px;font-weight:700;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--gray-100);cursor:pointer;transition:all .15s;letter-spacing:0.3px;}
+  .lang-btn:hover{border-color:var(--ink);}
+  .lang-btn.ar{background:var(--ink);color:var(--white);border-color:var(--ink);}
+  .chat-body.rtl{direction:rtl;text-align:right;}
+  .chat-body.rtl .msg.user{align-self:flex-start;background:var(--ink);color:var(--white);}
+  .chat-body.rtl .msg.ai{align-self:flex-end;background:var(--gray-100);}
+
   @media (max-width:860px){
     .copilot-grid,.promo-grid{grid-template-columns:1fr;}
     .rec-grid{grid-template-columns:1fr;}
@@ -217,6 +225,7 @@
     <div class="navtab" data-view="promo">Promotion Readiness</div>
   </div>
   <div style="display:flex;align-items:center;gap:14px;">
+    <button id="lang-toggle" class="lang-btn">عربي</button>
     <div style="position:relative;">
       <button id="notif-bell-btn" aria-label="Notifications" style="position:relative;background:var(--gray-100);border:1px solid var(--line);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">
         🔔
@@ -536,6 +545,34 @@ function renderChips(){
   }
 }
 
+/* ---- language & history state ---- */
+window.__lang = 'en';
+let __chatHistory = [];
+function pushHistory(role, content) {
+  __chatHistory.push({ role, content });
+  if (__chatHistory.length > 12) __chatHistory = __chatHistory.slice(-12);
+}
+
+const langToggleBtn = document.getElementById('lang-toggle');
+langToggleBtn.addEventListener('click', () => {
+  window.__lang = window.__lang === 'en' ? 'ar' : 'en';
+  const isAr = window.__lang === 'ar';
+  langToggleBtn.textContent = isAr ? 'English' : 'عربي';
+  langToggleBtn.classList.toggle('ar', isAr);
+  chatBody.classList.toggle('rtl', isAr);
+  chatInput.placeholder = isAr
+    ? 'اسأل عن الطلبات أو الحضور أو السياسات...'
+    : 'Ask about requests, attendance, or policies…';
+  __chatHistory = [];
+  loadBriefing();
+  chatBody.innerHTML = '';
+  const welcome = isAr
+    ? 'مرحباً، أنا مساعدك في الموارد البشرية. اختر سؤالاً من الاقتراحات أو اكتب ما تريد معرفته.'
+    : "Hi, I'm your HR Copilot. Pick a question type below or click any metric above to get started.";
+  addMsg(welcome, 'ai');
+  renderChips();
+});
+
 async function loadBriefing() {
   const bar = document.getElementById('briefing-bar');
   try {
@@ -593,11 +630,13 @@ async function triggerSuggestion(s){
     try {
       const res = await fetch('/api/copilot/chat', {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ kind: s.kind })
+        body: JSON.stringify({ kind: s.kind, lang: window.__lang })
       });
       const data = await res.json();
       typing.remove();
       addMsg(data.reply || "No results found.", "ai");
+      pushHistory('user', s.label);
+      pushHistory('assistant', data.reply || '');
       addFollowUpChips(data.followUps);
     } catch(e) {
       typing.remove();
@@ -662,11 +701,12 @@ async function answerForEmployee(kind, empId, empName){
   try {
     const res = await fetch('/api/copilot/chat', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ kind, empId })
+      body: JSON.stringify({ kind, empId, lang: window.__lang })
     });
     const data = await res.json();
     typing.remove();
     addMsg(data.reply || "No results found.", "ai");
+    pushHistory('assistant', data.reply || '');
     __lastEmpId = empId;
     if (empName) __lastEmpName = empName;
     if (kind === 'policy'){
@@ -681,11 +721,12 @@ async function answerForEmployee(kind, empId, empName){
 
 async function handleFreeText(q){
   addMsg(q, "user");
+  pushHistory('user', q);
   const typing = addMsg("Thinking…", "typing");
   try {
     const res = await fetch('/api/copilot/chat', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ kind:'freetext', question: q, empId: __lastEmpId || undefined })
+      body: JSON.stringify({ kind:'freetext', question: q, empId: __lastEmpId || undefined, lang: window.__lang, history: __chatHistory.slice(0,-1) })
     });
     const data = await res.json();
     typing.remove();
@@ -708,6 +749,7 @@ async function handleFreeText(q){
       askForEmployee((empId, empName) => answerForEmployee(data.suggestedIntent || 'balance', empId, empName));
     } else {
       addMsg(data.reply || "No results found.", "ai");
+      pushHistory('assistant', data.reply || '');
       addFollowUpChips(data.followUps);
     }
   } catch(e) {

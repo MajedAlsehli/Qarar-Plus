@@ -455,7 +455,7 @@ async function handleIntent(intent, empId) {
 
 router.post('/chat', async (req, res) => {
   try {
-    let { kind, empId, question } = req.body;
+    let { kind, empId, question, lang = 'en', history = [] } = req.body;
 
     if (empId !== undefined && empId !== null) {
       empId = parseInt(empId, 10);
@@ -465,7 +465,7 @@ router.post('/chat', async (req, res) => {
     const needsEmployee = ['attendance','balance','policy','manager','tenure','employeeSummary'].includes(kind);
 
     if (kind === 'freetext') {
-      const classified = await classifyIntent(question || '');
+      const classified = await classifyIntent(question || '', history);
       kind = classified.intent;
 
       if (kind === 'unknown') {
@@ -474,7 +474,7 @@ router.post('/chat', async (req, res) => {
           const empRow = await db.query('SELECT first_name, last_name FROM employees WHERE id = $1', [empId]);
           if (empRow.rows.length) empName = `${empRow.rows[0].first_name} ${empRow.rows[0].last_name}`;
         }
-        const reply = await generateSmartFallback(question, empName);
+        const reply = await generateSmartFallback(question, empName, lang, history);
         return res.json({ reply, needsEmployee: false });
       }
 
@@ -512,9 +512,9 @@ router.post('/chat', async (req, res) => {
 
     const reply = result.aiReply
       ? result.aiReply
-      : ORG_WIDE_INTENTS.includes(result.intent)
+      : (ORG_WIDE_INTENTS.includes(result.intent) && lang === 'en')
         ? formatOrgReply(result.intent, result.data)
-        : await generateChatReply(result.intent, result.data);
+        : await generateChatReply(result.intent, result.data, lang, history);
 
     const followUps = getFollowUps(result.intent);
     res.json({ reply, needsEmployee: false, followUps });
