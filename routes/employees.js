@@ -8,13 +8,15 @@ router.get('/:id/snapshot', async (req, res) => {
     if (isNaN(empId)) return res.status(400).json({ error: 'Invalid id' });
 
     const empRes = await db.query(
-      `SELECT e.first_name, e.last_name, e.role, e.grade, e.manager_name,
-              e.hire_date, e.role_start_date,
+      `SELECT e.first_name, e.last_name, e.role, e.manager_name,
+              e.hire_date, e.role_start_date, e.leave_balance,
               e.performance_rating_met, e.goal_achievement_met,
               e.leadership_cert, e.manager_feedback_positive, e.peer_feedback_positive,
-              d.label AS department
+              d.label AS department,
+              sg.grade
        FROM employees e
        JOIN departments d ON e.department_id = d.id
+       LEFT JOIN salary_grades sg ON e.grade_id = sg.id
        WHERE e.id = $1`,
       [empId]
     );
@@ -31,11 +33,7 @@ router.get('/:id/snapshot', async (req, res) => {
       ? Math.round(100 * parseInt(att.present_late) / parseInt(att.total))
       : 0;
 
-    const lbRes = await db.query(
-      'SELECT days_remaining FROM leave_balances WHERE employee_id = $1 LIMIT 1',
-      [empId]
-    );
-    const leaveBalance = lbRes.rows[0]?.days_remaining ?? null;
+    const leaveBalance = e.leave_balance ?? null;
 
     const roleStart = new Date(e.role_start_date || e.hire_date);
     const tenureYears = Math.round((Date.now() - roleStart.getTime()) / (365.25 * 24 * 3600 * 1000) * 10) / 10;
