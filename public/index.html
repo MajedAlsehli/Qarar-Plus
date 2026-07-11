@@ -1425,9 +1425,9 @@ async function demoType(text){
   for(const ch of text){
     m.textContent += ch;
     chatBody.scrollTop = chatBody.scrollHeight;
-    await demoDelay(38);
+    await demoDelay(65);
   }
-  await demoDelay(350);
+  await demoDelay(700);
   m.className = 'msg user';
   chatBody.scrollTop = chatBody.scrollHeight;
 }
@@ -1442,14 +1442,14 @@ async function runDemo1(){
     'Feature 1 — AI HR Copilot. Ask any workforce question in plain language and get an instant, data-grounded answer.',
     'الميزة الأولى — المساعد الذكي للموارد البشرية. اطرح أي سؤال عن القوى العاملة بلغة طبيعية واحصل على إجابة فورية مستندة إلى البيانات.'
   ));
-  await demoDelay(3800);
+  await demoDelay(7000);
 
   // Step 1 — pending requests
   demoNarrate(N(
     'Asking about overdue requests — Copilot scans all pending items and flags anything past the 3-day SLA.',
     'السؤال عن الطلبات المتأخرة — يفحص المساعد جميع الطلبات المعلقة ويحدد ما تجاوز مهلة 3 أيام.'
   ));
-  await demoDelay(2800);
+  await demoDelay(5500);
   const s1 = suggestions.find(s=>s.kind==='pending');
   await demoType(chipLabel(s1));
   const t1 = addMsg(S('searching'),'typing');
@@ -1464,14 +1464,14 @@ async function runDemo1(){
     'Copilot identified the overdue requests and explained priority. Follow-up chips appear for the most logical next questions.',
     'حدّد المساعد الطلبات المتأخرة وشرح الأولويات. تظهر اقتراحات للأسئلة المنطقية التالية.'
   ));
-  await demoDelay(4500);
+  await demoDelay(8000);
 
   // Step 2 — burnout risk
   demoNarrate(N(
     'Now checking burnout risk across the whole organization — Copilot cross-references overtime hours with attendance patterns.',
     'الآن فحص خطر الإرهاق في المنظمة — يقارن المساعد ساعات العمل الإضافي بأنماط الحضور.'
   ));
-  await demoDelay(2800);
+  await demoDelay(5500);
   const s2 = suggestions.find(s=>s.kind==='burnoutRisk');
   await demoType(chipLabel(s2));
   const t2 = addMsg(S('searching'),'typing');
@@ -1486,7 +1486,7 @@ async function runDemo1(){
     'Burnout risk identified in real time. HR can act before someone disengages or resigns — not after.',
     'تم تحديد خطر الإرهاق في الوقت الفعلي. يمكن لـ HR التصرف قبل أن ينفصل الموظف أو يستقيل.'
   ));
-  await demoDelay(4500);
+  await demoDelay(8000);
 
   // Step 3 — employee briefing
   const dept = (window.__depts||[])[0];
@@ -1497,7 +1497,7 @@ async function runDemo1(){
       `Finally — a full AI briefing on ${empName}. One request generates a complete HR intelligence report combining attendance, performance, promotion status, overtime risk, and more.`,
       `أخيراً — تقرير ذكاء اصطناعي كامل عن ${empName}. طلب واحد يولّد تقريراً شاملاً يجمع الحضور والأداء والترقية وخطر الإرهاق والمزيد.`
     ));
-    await demoDelay(3500);
+    await demoDelay(6000);
     const q = N(`Get a full AI briefing on ${empName}`, `الحصول على تقرير ذكاء اصطناعي كامل عن ${empName}`);
     await demoType(q);
     __lastEmpId = emp.id; __lastEmpName = empName;
@@ -1506,7 +1506,7 @@ async function runDemo1(){
       'Complete employee briefing generated. HR can read it here or download it as a PDF to bring into a performance conversation.',
       'تم إنشاء التقرير الكامل. يمكن لـ HR قراءته هنا أو تحميله كملف PDF لاستخدامه في محادثات الأداء.'
     ));
-    await demoDelay(5000);
+    await demoDelay(9000);
   }
 
   demoNarrateHide();
@@ -1525,7 +1525,7 @@ async function runDemo2(){
     'Feature 2 — AI Learning & Development. AI reads each employee\'s performance review and recommends the most relevant courses from the catalog.',
     'الميزة الثانية — التعلم والتطوير بالذكاء الاصطناعي. يقرأ الذكاء الاصطناعي تقييم الأداء ويوصي بالدورات الأنسب من الكتالوج.'
   ));
-  await demoDelay(4000);
+  await demoDelay(7000);
 
   const dept = (window.__depts||[])[0];
   if(!dept){ demoNarrateHide(); btn.disabled=false; btn.textContent=S('demoBtn'); return; }
@@ -1534,10 +1534,10 @@ async function runDemo2(){
     `Selecting the ${dept.label} department from the dropdown — employees will load automatically.`,
     `اختيار قسم ${dept.label} من القائمة — سيتم تحميل الموظفين تلقائياً.`
   ));
-  await demoDelay(2000);
+  await demoDelay(4000);
   divSelect.value = dept.key;
   divSelect.dispatchEvent(new Event('change'));
-  await demoDelay(1200);
+  await demoDelay(2000);
 
   const emp = dept.employees[0];
   if(!emp){ demoNarrateHide(); btn.disabled=false; btn.textContent=S('demoBtn'); return; }
@@ -1547,7 +1547,7 @@ async function runDemo2(){
     `Selecting ${empName} — AI will now read their latest performance review notes to identify development needs.`,
     `اختيار ${empName} — سيقرأ الذكاء الاصطناعي الآن آخر ملاحظات تقييم أدائه لتحديد احتياجات التطوير.`
   ));
-  await demoDelay(2200);
+  await demoDelay(4500);
   empSelect.value = emp.id;
   empSelect.dispatchEvent(new Event('change'));
 
@@ -1560,20 +1560,20 @@ async function runDemo2(){
   while(!document.querySelector('.rec-grid') && waited < 15000){
     await demoDelay(400); waited += 400;
   }
-  await demoDelay(800);
+  await demoDelay(1500);
   document.getElementById('ld-rec-area').scrollIntoView({behavior:'smooth', block:'start'});
 
   demoNarrate(N(
     '3 personalized courses generated — each ranked by relevance with an AI-written rationale explaining exactly why it fits this employee right now.',
     'تم إنشاء 3 دورات مخصصة — كل منها مرتبة حسب الصلة مع سبب مكتوب بالذكاء الاصطناعي يشرح لماذا تناسب هذا الموظف الآن.'
   ));
-  await demoDelay(4500);
+  await demoDelay(8000);
 
   demoNarrate(N(
     'HR approves or rejects each course, then forwards the decision to the manager. The employee only sees recommendations after both HR and their manager have reviewed them.',
     'تُوافق الموارد البشرية على كل دورة أو ترفضها، ثم تُرسل القرار إلى المدير. لا يرى الموظف أي شيء إلا بعد مراجعة الطرفين.'
   ));
-  await demoDelay(5000);
+  await demoDelay(9000);
 
   demoNarrateHide();
   btn.disabled = false; btn.textContent = S('demoBtn');
@@ -1588,7 +1588,7 @@ async function runDemo3(){
     'Feature 3 — AI Promotion Readiness Predictor. A transparent score built from 5 policy criteria and live employee records — no black box.',
     'الميزة الثالثة — نظام توقع الاستعداد للترقية. درجة شفافة مبنية على 5 معايير سياسة وسجلات الموظف الحية — لا صندوق أسود.'
   ));
-  await demoDelay(4000);
+  await demoDelay(7000);
 
   const dept = (window.__depts||[])[0];
   if(!dept){ demoNarrateHide(); btn.disabled=false; btn.textContent=S('demoBtn'); return; }
@@ -1597,10 +1597,10 @@ async function runDemo3(){
     `Selecting the ${dept.label} department…`,
     `اختيار قسم ${dept.label}...`
   ));
-  await demoDelay(1800);
+  await demoDelay(3500);
   promoDivSelect.value = dept.key;
   promoDivSelect.dispatchEvent(new Event('change'));
-  await demoDelay(1000);
+  await demoDelay(1800);
 
   const emp = dept.employees[1] || dept.employees[0];
   if(!emp){ demoNarrateHide(); btn.disabled=false; btn.textContent=S('demoBtn'); return; }
@@ -1610,7 +1610,7 @@ async function runDemo3(){
     `Selecting ${empName} — AI will now evaluate them against all 5 promotion criteria defined in company policy.`,
     `اختيار ${empName} — سيُقيّم الذكاء الاصطناعي الآن مدى استيفائه لـ 5 معايير ترقية محددة في سياسة الشركة.`
   ));
-  await demoDelay(2500);
+  await demoDelay(5000);
   promoEmpSelect.value = emp.id;
   promoEmpSelect.dispatchEvent(new Event('change'));
 
@@ -1623,13 +1623,13 @@ async function runDemo3(){
   while(!document.querySelector('.score-num') && waited < 10000){
     await demoDelay(300); waited += 300;
   }
-  await demoDelay(600);
+  await demoDelay(1200);
 
   demoNarrate(N(
     'Promotion Readiness Score calculated. Each criterion is shown individually so HR and managers understand exactly what drives the score. The result is always routed to the manager — never shown directly to the employee.',
     'تم احتساب درجة الاستعداد للترقية. يُعرض كل معيار بشكل منفصل حتى تفهم الموارد البشرية والمديرون ما يحرّك الدرجة. تُرسل النتيجة دائماً إلى المدير وليس للموظف مباشرةً.'
   ));
-  await demoDelay(6000);
+  await demoDelay(10000);
 
   demoNarrateHide();
   btn.disabled = false; btn.textContent = S('demoBtn');
@@ -1643,15 +1643,15 @@ async function runFullDemo(){
     'Starting full demo — 3 AI-powered HR features. Watch how Jisr AI transforms everyday HR workflows.',
     'بدء العرض الكامل — 3 ميزات للموارد البشرية بالذكاء الاصطناعي. شاهد كيف يحوّل Jisr AI مهام الموارد البشرية اليومية.'
   ));
-  await demoDelay(3500);
+  await demoDelay(6000);
 
   await runDemo1();
   demoNarrate(N('Moving to Feature 2 — AI Learning & Development…', 'الانتقال إلى الميزة الثانية — التعلم والتطوير...'));
-  await demoDelay(3000);
+  await demoDelay(5000);
 
   await runDemo2();
   demoNarrate(N('Moving to Feature 3 — AI Promotion Readiness…', 'الانتقال إلى الميزة الثالثة — الاستعداد للترقية...'));
-  await demoDelay(3000);
+  await demoDelay(5000);
 
   await runDemo3();
 
@@ -1659,7 +1659,7 @@ async function runFullDemo(){
     'Demo complete. All 3 features are live and powered by real data. Ready for your questions.',
     'اكتمل العرض. جميع الميزات الثلاث تعمل بالبيانات الحقيقية. جاهز لأسئلتكم.'
   ));
-  await demoDelay(5000);
+  await demoDelay(8000);
   demoNarrateHide();
 
   btn.disabled = false; btn.textContent = S('fullDemoBtn');
