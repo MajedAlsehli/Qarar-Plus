@@ -137,4 +137,4 @@ Hit the **↺ Reset** button in the navbar — it clears all notifications and r
 
 ---
 
-*Built as part of the AI Fundamentals Bootcamp at Tuwaiq Academy in collaboration with Meta. July 2026.*
+*Built by Team 4 as part of the AI Fundamentals Bootcamp at Tuwaiq Academy in collaboration with Meta. July 2026.*
