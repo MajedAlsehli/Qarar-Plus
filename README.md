@@ -1,6 +1,5 @@
 # Jisr AI — Interactive Prototype
 
-
 **Embedding AI-Powered Decision Support into HR Operations, Employee Development, and Promotion Decisions**
 
 A working interactive prototype built to validate a product proposal for [Jisr](https://www.jisr.net/en), Saudi Arabia's leading HR SaaS platform. The prototype demonstrates three AI-powered capabilities layered directly on top of real employee and HR data, with OpenAI used exclusively to narrate pre-computed, deterministic facts in natural language — never to invent data or make decisions.
