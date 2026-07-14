@@ -273,6 +273,25 @@
     .copilot-grid > .card:not(.chat-card){order:2;}
 
     #notif-panel{width:calc(100vw - 32px) !important;right:-8px !important;}
+
+    .topnav{justify-content:flex-start;column-gap:10px;}
+    .brand{order:0;}
+    .topnav > div:last-child{display:contents !important;}
+    .notif-wrapper{order:1;}
+    .mobile-more-btn{
+      display:flex !important;order:2;width:38px;height:38px;border-radius:50%;
+      background:var(--gray-100);border:1px solid var(--line);align-items:center;
+      justify-content:center;cursor:pointer;color:var(--ink);margin-inline-start:auto;
+    }
+    .navtabs{order:3;}
+    #mobile-menu-panel{display:none !important;}
+    .topnav.mobile-menu-open #mobile-menu-panel{
+      display:flex !important;flex-direction:column;gap:8px;align-items:stretch;
+      position:absolute;top:calc(100% + 8px);right:16px;min-width:150px;
+      background:var(--white);border:1px solid var(--line);border-radius:14px;
+      box-shadow:0 14px 40px rgba(0,0,0,.15);padding:10px;z-index:160;
+    }
+    #mobile-menu-panel button{width:100%;justify-content:center;}
   }
 </style>
 </head>
@@ -289,7 +308,7 @@
     <div class="navtab" data-view="promo" data-i18n="navPromo">Promotion Readiness</div>
   </div>
   <div style="display:flex;align-items:center;gap:10px;">
-    <div style="position:relative;">
+    <div class="notif-wrapper" style="position:relative;">
       <button id="notif-bell-btn" aria-label="Notifications" style="position:relative;background:var(--gray-100);border:1px solid var(--line);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">
         🔔
         <span id="notif-badge" style="display:none;position:absolute;top:-4px;right:-4px;background:var(--danger);color:#fff;font-size:10px;font-weight:700;min-width:16px;height:16px;border-radius:999px;align-items:center;justify-content:center;padding:0 4px;">0</span>
@@ -299,9 +318,14 @@
         <div id="notif-list" style="padding:6px;"></div>
       </div>
     </div>
-    <button id="full-demo-btn" class="full-demo-btn" data-i18n="fullDemoBtn">▶ Full Demo</button>
-    <button id="reset-btn" title="Reset demo data" style="font-family:inherit;font-size:12px;font-weight:600;padding:7px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--white);color:var(--gray-500);cursor:pointer;white-space:nowrap;" onclick="resetDemo()">↺ Reset</button>
-    <button id="lang-toggle" class="lang-btn">AR</button>
+    <button id="mobile-more-btn" class="mobile-more-btn" aria-label="More options" style="display:none;">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="3.5" r="1.6" fill="currentColor"/><circle cx="9" cy="9" r="1.6" fill="currentColor"/><circle cx="9" cy="14.5" r="1.6" fill="currentColor"/></svg>
+    </button>
+    <div id="mobile-menu-panel" style="display:contents;">
+      <button id="full-demo-btn" class="full-demo-btn" data-i18n="fullDemoBtn">▶ Full Demo</button>
+      <button id="reset-btn" title="Reset demo data" style="font-family:inherit;font-size:12px;font-weight:600;padding:7px 14px;border-radius:999px;border:1.5px solid var(--line);background:var(--white);color:var(--gray-500);cursor:pointer;white-space:nowrap;" onclick="resetDemo()">↺ Reset</button>
+      <button id="lang-toggle" class="lang-btn">AR</button>
+    </div>
     <div class="navcta" data-i18n="navcta">HR Workspace</div>
   </div>
 </div>
@@ -487,6 +511,24 @@ document.addEventListener("click", (e)=>{
   if (!notifPanel.contains(e.target) && e.target !== notifBellBtn){
     notifPanel.style.display = "none";
   }
+});
+
+const mobileMoreBtn = document.getElementById("mobile-more-btn");
+mobileMoreBtn.addEventListener("click", (e)=>{
+  e.stopPropagation();
+  document.querySelector(".topnav").classList.toggle("mobile-menu-open");
+});
+const mobileMenuPanel = document.getElementById("mobile-menu-panel");
+document.addEventListener("click", (e)=>{
+  const topnav = document.querySelector(".topnav");
+  if (topnav.classList.contains("mobile-menu-open") &&
+      !mobileMoreBtn.contains(e.target) &&
+      !mobileMenuPanel.contains(e.target)){
+    topnav.classList.remove("mobile-menu-open");
+  }
+});
+document.querySelectorAll(".navtab").forEach(tab=>{
+  tab.addEventListener("click", ()=> document.querySelector(".topnav").classList.remove("mobile-menu-open"));
 });
 
 let __confirmYesHandler = null;
