@@ -265,10 +265,12 @@
     .navtabs::-webkit-scrollbar{display:none;}
     .navtab{flex-shrink:0;}
     .topnav > div:last-child{order:3;width:100%;flex-wrap:wrap;gap:8px;justify-content:flex-start;}
+    .navcta{display:none;}
 
     .shell{padding:20px 16px 80px;}
-    .chat-card{height:auto;max-height:none;}
+    .chat-card{height:auto;max-height:none;order:1;}
     .chat-body{flex:0 1 auto;max-height:240px;min-height:120px;overflow-y:auto;}
+    .copilot-grid > .card:not(.chat-card){order:2;}
 
     #notif-panel{width:calc(100vw - 32px) !important;right:-8px !important;}
   }
