@@ -258,8 +258,18 @@
   @media (max-width:860px){
     .copilot-grid,.promo-grid{grid-template-columns:1fr;}
     .rec-grid{grid-template-columns:1fr;}
-    .navtabs{display:none;}
     .briefing-bar{grid-template-columns:repeat(2,1fr);}
+
+    .topnav{flex-wrap:wrap;row-gap:10px;padding:14px 16px;}
+    .navtabs{order:2;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    .navtabs::-webkit-scrollbar{display:none;}
+    .navtab{flex-shrink:0;}
+    .topnav > div:last-child{order:3;width:100%;flex-wrap:wrap;gap:8px;justify-content:flex-start;}
+
+    .shell{padding:20px 16px 80px;}
+    .chat-card{height:65vh;min-height:420px;}
+
+    #notif-panel{width:calc(100vw - 32px) !important;right:-8px !important;}
   }
 </style>
 </head>
